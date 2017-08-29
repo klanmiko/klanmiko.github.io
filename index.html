@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kaelan's Portfolio</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Courgette" rel="stylesheet">
+    <link rel="stylesheet" href="./config.css">
+    <link rel="stylesheet" href="./styles.css">
+    <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.0/velocity.min.js"></script>
+    <script src="./minmax.js"></script>
+    <script type="text/javascript">
+        $(function (){
+            let start = minimax(1, 10, globalBoardState);
+            console.log(start);
+            start.y++; // jquery n-index at 1
+            start.x++;
+            var el = $("tr:nth-child("+start.y+") > td:nth-child("+start.x+")");
+            el.css("color", "rgb(74, 74, 74)");
+            el.text("X");
+            globalBoardState[start.y - 1][start.x - 1] = 1;
+            var buttonactive = false;
+            var button = $(".FOB");
+            function buttonHandler(){
+                if(!buttonactive) {
+                    button.velocity({top: $(window).scrollTop() + 20, left: 0, "margin-left":0}, {
+                        easing: "easeInQuartic",
+                        duration: "400",
+                        complete: function() {
+                            button.css("top", "");
+                            button.css("left", "");
+                            button.css("margin-left", "");
+                            button.toggleClass("active");
+                        }
+                    });
+                    buttonactive = true;
+                }
+                else {
+                    //display menu
+                    $(".FOB-menu").show();
+                }
+            }
+            button.mouseover(buttonHandler);
+            button.click(buttonHandler);
+            if(button.is(":hover")) {
+                buttonHandler();
+            }
+            $(window).scroll(function(){
+                if($(window).scrollTop() > button.position().top){
+                    $(window).off("scroll");
+                    button.click();
+                }
+            });
+            $("table td").hover(function(event) {
+                if(event.target.innerHTML === "") {
+                    $(event.target).css("color", "rgb(200, 200, 200)");
+                    event.target.innerHTML = "O";
+                }
+            }, function(event){
+                if($(event.target).css("color") === "rgb(200, 200, 200)")
+                    event.target.innerHTML = "";
+            });
+            $("table td").click(function(event) {
+                if($(event.target).css("color") === "rgb(200, 200, 200)") {
+                    var x = $(event.target).prevAll().length;
+                    var y = $(event.target).parent().prevAll().length;
+                    if(globalBoardState[y][x] == 0) {
+                        globalBoardState[y][x] = -1;
+                        $(event.target).css("color", "rgb(74, 74, 74)");
+                        event.target.innerHTML = "O";
+                        var target = minimax(1, 10, globalBoardState);
+                        console.log(target);
+                        target.y++; // jquery n-index at 1
+                        target.x++;
+                        var el = $("tr:nth-child("+target.y+") > td:nth-child("+target.x+")");
+                        el.css("color", "rgb(74, 74, 74)");
+                        el.text("X");
+                        globalBoardState[target.y - 1][target.x - 1] = 1;
+                    }
+                }
+            })
+        });
+        /**document.addEventListener('DOMContentLoaded', function () {
+
+            // Get all "navbar-burger" elements
+            var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+            // Check if there are any nav burgers
+            if ($navbarBurgers.length > 0) {
+
+                // Add a click event on each of them
+                $navbarBurgers.forEach(function ($el) {
+                    $el.addEventListener('click', function () {
+
+                        // Get the target from the "data-target" attribute
+                        var target = $el.dataset.target;
+                        var $target = document.getElementById(target);
+
+                        // Toggle the class on both the "navbar-burger" and the "navbar-menu"
+                        $el.classList.toggle('is-active');
+                        $target.classList.toggle('is-active');
+
+                    });
+                });
+            }
+
+        });*/
+
+    </script>
+  </head>
+  <body>
+    <!--<nav class="navbar">
+        <div class="navbar-brand">
+            <a id="name" class="navbar-item is-size-4" href="#">Kaelan</a>
+            <div class="navbar-burger burger" data-target="navMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div id="navMenu" class="navbar-menu">
+            <div class="navbar-end">
+                <a class="navbar-item" href="https://github.com/klanmiko">
+                    <img src="img/GitHub-Mark-64px.png">
+                </a>
+            </div>
+        </div>
+    </nav>-->
+
+    <div class="FOB">
+        <img class="image" src="img/logo.jpg">
+        <div class="FOB-menu">
+
+        </div>
+    </div>
+    <section class="hero is-large is-halfheight is-primary">
+        <div id="myface" class="hero-body">
+            <div class="container">
+                <div class="columns">
+                    <div class="column is-one-third">
+                        <h1 class="title">
+                            Kaelan Mikowicz
+                        </h1>
+                        <p class="subtitle">
+                            Software developer
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section is-black">
+        <div class="container">
+            <h1 class="title">Interests</h1>
+            <div class="columns">
+                <div class="column">
+                    <div class="box">
+                        <h2 class="subtitle">Robotics <span class="icon"><i class="fa fa-microchip" aria-hidden="true"></i></span></h2>
+                        <p>Robotics@APEX was where I first applied my C programming knowledge on systems that interacted with an external, unpredicable environment. 
+                            Given the chance, I would like to pursue applications in swarm robotics and similar cognitive systems.</p>                         
+                    </div>
+                </div>
+                <div class="column">
+                   <div class="box"> 
+                        <h2 class="subtitle">Web Development <span class="icon"<i class="fa fa-chrome" aria-hidden="true"></i></span></h2>
+                        <p>Most applications require access to a centralized data system, powered through the internet. 
+                            Back-end and front-end applications each have their own allure. One is expressive and one is intricate.</p>
+                   </div>
+                </div>
+                <div class="column">
+                   <div class="box"> 
+                        <h2 class="subtitle">Machine Learning <span class="icon"<i class="fa fa-lightbulb-o" aria-hidden="true"></i></span></h2>
+                        <p>Since I began programming by making a game of pong, I've always been intrigued by Artificial Intelligence.
+                             Being able to simulate logic in a way that isn't a string of if statements is what excites me about machine learning algorithms.</p>
+                        <div class="container is-fluid">
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section is-primary">
+            <div class="container">
+                <h1 class="title">Projects</h1>
+            </div>
+    </section>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Tech</h1>
+            <div class="tiles"></div>
+        </div>
+    </section>
+    <section class="section is-black">
+        <div class="container">
+            <h1 class="title">Involvement</h1>
+            
+        </div>
+    </section>
+    <footer class="footer">
+    </footer>
+  </body>
+</html>

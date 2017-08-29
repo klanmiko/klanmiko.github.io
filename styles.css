@@ -1,0 +1,85 @@
+#name {
+    font-family: 'Courgette', cursive;
+}
+.navbar-item.is-active {
+    background-color: #FFFFFF;
+}
+section.is-primary {
+    background-color: #cf5e5e;
+}
+section.is-black {
+    background-color: black;
+}
+i {
+    margin-left: 10px;
+    margin-right: auto;
+}
+#myface {
+    background-image: url('img/kaelan.jpg');
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+}
+section.is-primary h1:first-of-type, section.is-black h1:first-of-type {
+    color: white;
+}
+.FOB {
+    top:9vw;
+    left:50%;
+    margin-left: -130px;
+    position: absolute;
+    z-index:2;
+    font-size:50px; /*used to set clipping size*/
+}
+.FOB:hover, .FOB > image:hover{
+    cursor: pointer;
+}
+.FOB.active {
+    top:20px;
+    left: 0px;
+    margin-left: 0px;
+    position:fixed;
+}
+@media(max-width:1300px) {
+    .FOB {
+        font-size:30px;
+        margin-left: -70px;
+    }
+}
+@media(max-width:700px) {
+    .FOB {
+        font-size:15px;
+        margin-left: -40px;
+    }
+}
+.FOB > img:first-child {
+    width:4em;
+    height: 4em;
+    max-width: 200px;
+    max-height: 200px;
+    clip-path: circle(2em);
+}
+.FOB-menu {
+    position: relative;
+}
+td:first-child, td:nth-child(2)  {
+    border-right: 5px solid black;
+}
+.container > table {
+    width:100%;
+    margin-top: 20px;
+    font-size: 40px;
+}
+table tr{
+    font-size: inherit;
+}
+tr:nth-child(1), tr:nth-child(2) {
+    border-bottom: 5px solid black;
+}
+table td {
+    text-align: center;
+    width: 33.3%;
+}
+td:empty:after{
+    content: "\00a0";
+}
