@@ -16,6 +16,26 @@
     <script src="./minmax.js"></script>
     <script type="text/javascript">
         $(function (){
+            function displayGameOver() {
+                if(isFull(globalBoardState)) {
+                    console.log("draw");
+                    $("#win-modal h1").text("Draw! Nobody wins!");
+                    $("#win-modal").toggleClass("display");
+                }
+                else {
+                    let score = boardHeuristic(-1, globalBoardState);
+                    if(score > 1000) {
+                        console.log("win");
+                        $("#win-modal h1").text("I win! As usual...");
+                        $("#win-modal").toggleClass("display");                        
+                    }
+                    else if(score < -1000) {
+                        console.log("lose");
+                        $("#win-modal h1").text("This can't be possible");
+                        $("#win-modal").toggleClass("display");
+                    }
+                }   
+            }
             let start = minimax(1, 10, globalBoardState);
             console.log(start);
             start.y++; // jquery n-index at 1
@@ -28,7 +48,7 @@
             var button = $(".FOB");
             function buttonHandler(){
                 if(!buttonactive) {
-                    button.velocity({top: $(window).scrollTop() + 20, left: 0, "margin-left":0}, {
+                    button.velocity({top: $(window).scrollTop() + 20, left: 0, "margin-left":0, scale: 0.75}, {
                         easing: "easeInQuartic",
                         duration: "400",
                         complete: function() {
@@ -75,12 +95,18 @@
                         event.target.innerHTML = "O";
                         var target = minimax(1, 10, globalBoardState);
                         console.log(target);
-                        target.y++; // jquery n-index at 1
-                        target.x++;
-                        var el = $("tr:nth-child("+target.y+") > td:nth-child("+target.x+")");
-                        el.css("color", "rgb(74, 74, 74)");
-                        el.text("X");
-                        globalBoardState[target.y - 1][target.x - 1] = 1;
+                        if(target.y == undefined) {
+                            displayGameOver();
+                        }
+                        else{
+                            target.y++; // jquery n-index at 1
+                            target.x++;
+                            var el = $("tr:nth-child("+target.y+") > td:nth-child("+target.x+")");
+                            el.css("color", "rgb(74, 74, 74)");
+                            el.text("X");
+                            globalBoardState[target.y - 1][target.x - 1] = 1;
+                            displayGameOver();
+                        }
                     }
                 }
             })
@@ -160,21 +186,19 @@
             <div class="columns">
                 <div class="column">
                     <div class="box">
-                        <h2 class="subtitle">Robotics <span class="icon"><i class="fa fa-microchip" aria-hidden="true"></i></span></h2>
-                        <p>Robotics@APEX was where I first applied my C programming knowledge on systems that interacted with an external, unpredicable environment. 
-                            Given the chance, I would like to pursue applications in swarm robotics and similar cognitive systems.</p>                         
+                        <h2 class="subtitle">Embedded Devices <span class="icon"><i class="fa fa-microchip" aria-hidden="true"></i></span></h2>
+                        <p>Robotics@APEX in middle school and running a maker club in high school exposed me to programming microprocessors and controlling mechanical devices. As the Software Lead at FRUCD, I program PSOCs to manage the transfer of telemetry between embedded devices on the car and a traditional desktop monitoring application. Of particular interest to me are IoT mesh networks. During spring quarter I wrote an engineering paper comparing common IoT protocols to implement an IoT gateway, and more recently at CalHacks I attempted to build a distributed server application on Raspberry Pi's over radio. If I had the chance, I would also like to do research in swarm robotics.
                     </div>
                 </div>
                 <div class="column">
                    <div class="box"> 
-                        <h2 class="subtitle">Web Development <span class="icon"<i class="fa fa-chrome" aria-hidden="true"></i></span></h2>
-                        <p>Most applications require access to a centralized data system, powered through the internet. 
-                            Back-end and front-end applications each have their own allure. One is expressive and one is intricate.</p>
+                        <h2 class="subtitle">Web Development <span class="icon"><i class="fa fa-chrome" aria-hidden="true"></i></span></h2>
+                        <p>Most applications require access to a centralized data system, powered through the internet. I like building web apps mainly because they are universal and simple to make. Creating backend services allows me to think about how to represent data and how to ensure consistency in its manipulation. As the technical lead for HackDavis I work on ensuring that our webpage and live-page for the hackathon are well maintained. I also consult with sponsorship to seek out APIs that enhance the abilities of our hackathon attendees.</p>
                    </div>
                 </div>
                 <div class="column">
                    <div class="box"> 
-                        <h2 class="subtitle">Machine Learning <span class="icon"<i class="fa fa-lightbulb-o" aria-hidden="true"></i></span></h2>
+                        <h2 class="subtitle">Machine Learning <span class="icon"><i class="fa fa-lightbulb-o" aria-hidden="true"></i></span></h2>
                         <p>Since I began programming by making a game of pong, I've always been intrigued by Artificial Intelligence.
                              Being able to simulate logic in a way that isn't a string of if statements is what excites me about machine learning algorithms.</p>
                         <div class="container is-fluid">
@@ -197,6 +221,13 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <div id="win-modal" class="box is-overlay">
+                                <div class="level">
+                                    <div class="level-item has-text-centered">                               
+                                        <h1 class="is-size-3"></h1>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                    </div>
                 </div>
@@ -206,6 +237,33 @@
     <section class="section is-primary">
             <div class="container">
                 <h1 class="title">Projects</h1>
+                <div class="tiles">
+                    <div class="tile is-ancestor">
+                        <div class="tile is-vertical is-parent is-4">
+                            <div class="tile is-child box">
+                                <h1 class="title">Smart Sensor</h1>
+                            </div>
+                            <div class="tile is-child box">
+                                <h1 class="title">GPS Simulator</h1>
+                            </div>
+                        </div>
+                        <div class="tile is-vertical">
+                            <div class="tile is-parent">
+                                <div class="tile is-child box">
+
+                                </div>
+                            </div>
+                            <div class="tile is-parent">
+                                <div class="tile is-child box">
+
+                                </div>
+                                <div class="tile is-child box">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
     </section>
     <section class="section">

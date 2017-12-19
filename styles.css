@@ -1,6 +1,21 @@
 #name {
     font-family: 'Courgette', cursive;
 }
+#win-modal {
+    visibility: hidden;
+    transition-delay: 0.5s;
+    transition-property: opacity, visibility;
+    transition-duration: 1s;
+    transition-timing-function: ease-in;
+    opacity: 0;
+}
+#win-modal.display {
+    opacity: 1;
+    visibility: visible;
+}
+#win-modal > .level {
+    height: 100%;
+}
 .navbar-item.is-active {
     background-color: #FFFFFF;
 }
@@ -20,8 +35,11 @@ i {
     background-position: center top;
     background-size: cover;
 }
-section.is-primary h1:first-of-type, section.is-black h1:first-of-type {
+section.is-primary h1:first-of-type.title, section.is-black h1:first-of-type.title {
     color: white;
+}
+.box h1 {
+    color: black;
 }
 .FOB {
     top:9vw;
@@ -35,10 +53,10 @@ section.is-primary h1:first-of-type, section.is-black h1:first-of-type {
     cursor: pointer;
 }
 .FOB.active {
-    top:20px;
+    top: 0px;
     left: 0px;
     margin-left: 0px;
-    position:fixed;
+    position: fixed;
 }
 @media(max-width:1300px) {
     .FOB {
@@ -82,4 +100,7 @@ table td {
 }
 td:empty:after{
     content: "\00a0";
+}
+td:hover {
+    cursor: pointer;
 }
