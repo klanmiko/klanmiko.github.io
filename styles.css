@@ -104,3 +104,6 @@ td:empty:after{
 td:hover {
     cursor: pointer;
 }
+section.projects .box > .title{
+    color: black !important;
+}
